@@ -31,12 +31,6 @@ async function* getEpicGamesData() {
 }
 
 function writeDataToCsv(contents) {
-  if (existsSync('./src/assets/games-info.csv')) {
-    rmSync('./src/assets/games-info.csv');
-  }
-
-  writeFileSync('./src/assets/games-info.csv', 'Name;Price;Date\n');
-
   const contentFormatted = contents
     .map(content => Object.values(content).join(';'))
     .join('\n');
@@ -50,10 +44,16 @@ function writeDataToCsv(contents) {
   let gamesTotalPrice = 0;
 
   spinner.start('🤖 - Fetching your games');
+
+  if (existsSync('./src/assets/games-info.csv')) {
+    rmSync('./src/assets/games-info.csv');
+  }
+
+  writeFileSync('./src/assets/games-info.csv', 'Name;Price;Date\n');
   for await (let data of getEpicGamesData()) {
     writeDataToCsv(data);
 
-    const pageTotalPrice = data.reduce((prev,cur) => Number(cur.price.replace('R$','').replace(',','.')) + prev, 0)
+    const pageTotalPrice = data.reduce((prev, cur) => Number(cur.price.replace('R$', '').replace(',', '.')) + prev, 0)
 
     gamesTotalPrice += pageTotalPrice;
     gamesCount += data.length;

@@ -1,6 +1,13 @@
 # Changelog
 
-## 2022-05-20
+## 2023-10-04
+
+### 1.1.1
+
+- 🔄 Add `.env.default` file
+- 🔄 Refactor code to check if file exists and create a new one on init of code instead of inside of iteration
+
+## 2023-05-20
 
 ### 1.1.0
 
